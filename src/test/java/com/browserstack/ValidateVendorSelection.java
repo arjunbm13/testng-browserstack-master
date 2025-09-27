@@ -10,10 +10,10 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-public class ValidateHomePageLanding  extends SeleniumTest {
+public class ValidateVendorSelection extends SeleniumTest {
 
     @Test
-    public void homeValidation() throws Exception {
+    public void VendorSelection() throws Exception {
         // navigate to bstackdemo
         driver.get("https://www.testathon.live");
 
@@ -34,6 +34,10 @@ public class ValidateHomePageLanding  extends SeleniumTest {
             if (!text.isEmpty()) {
                 foundVendors.add(text);
             }
+            span.click();
+            System.out.println(span.getText().trim() + " is tapped");
+            Assert.assertTrue(driver.findElement(By.xpath("//*[text()=\" Product(s) found.\"]")).isDisplayed());
+
         }
 
         // Expected vendors
@@ -47,18 +51,6 @@ public class ValidateHomePageLanding  extends SeleniumTest {
                 System.out.println(vendor + " is missing ❌");
             }
         }
-
-        // Save the text of the product for later verify
-        String productOnScreenText = driver.findElement(By.xpath("//*[@id=\"1\"]/p")).getText();
-        // Click on add to cart button
-        driver.findElement(By.xpath("//*[@id=\"1\"]/div[4]")).click();
-
-        // See if the cart is opened or not
-        Assert.assertTrue(driver.findElement(By.cssSelector(".float\\-cart__content")).isDisplayed());
-
-        // Check the product inside the cart is same as of the main page
-        String productOnCartText = driver.findElement(By.xpath("//*[@id=\"__next\"]/div/div/div[2]/div[2]/div[2]/div/div[3]/p[1]")).getText();
-        Assert.assertEquals(productOnScreenText, productOnCartText);
 
     }
 }
